@@ -8,14 +8,15 @@
 <body>
     <header>
         <div class="header-field">
-            <ul>
+            <ul class="header-list">
                 <li>
                     <a href="localhost:8000/">
                         <img src="images/bloghouse_logo.png" alt="Logo of the website">   
                     </a>
                 </li>
                 <li>
-                    <a href="http://">User Page</a>
+                    <a class="header-options" href="http://">User Page</a>
+                    <a class="header-options" href="http://">About Us</a>
                 </li>
             </ul>
         </div>

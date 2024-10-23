@@ -7,6 +7,11 @@ body {
     color: #212529;
 }
 
+a {
+    text-decoration: none;
+    color: #212529;
+}
+
 ul, li {
     list-style: none;
 }
@@ -18,13 +23,20 @@ img {
 }
 
 .header-field {
+    padding: 10px 20px;
+    background-color: #c6cbd1;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.header-list {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #c6cbd1;
-    border-bottom: 1px solid #e9ecef;
+}
+
+.header-options {
+    margin: 20px;
 }
 
 .main-advert {
