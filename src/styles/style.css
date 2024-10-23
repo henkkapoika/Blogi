@@ -16,7 +16,7 @@ ul, li {
     list-style: none;
 }
 
-img {
+.logo-img {
     max-width: 110px;
     max-height: 100%;
     border-radius: 4px;
@@ -51,7 +51,12 @@ img {
 .main-posts {
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     padding: 10px 20px;
     background-color: #f8f9fa;
+}
+
+.main-post {
+    margin: 20px;
 }
