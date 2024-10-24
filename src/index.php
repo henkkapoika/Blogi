@@ -1,20 +1,21 @@
 <?php
 require "data/dbconn.php";
+require "data/post.php";
 
-$stmt = $mysqli->prepare("SELECT * FROM blogs");
-$stmt->execute();
-$result = $stmt->get_result();
+// $stmt = $mysqli->prepare("SELECT * FROM blogs");
+// $stmt->execute();
+// $result = $stmt->get_result();
 
-$post = $result->fetch_assoc();
+// $post = $result->fetch_assoc();
 
-$stmt2 = $mysqli->prepare("SELECT username FROM users WHERE user_id = ?");
-$stmt2->bind_param("s", $post['user_id']);
-$stmt2->execute();
-$result2 = $stmt2->get_result();
+// $stmt2 = $mysqli->prepare("SELECT username FROM users WHERE user_id = ?");
+// $stmt2->bind_param("s", $post['user_id']);
+// $stmt2->execute();
+// $result2 = $stmt2->get_result();
 
-$user = $result2->fetch_assoc();
+// $user = $result2->fetch_assoc();
 
-$stmt->close();
+// $stmt->close();
 
 
 ?>
@@ -46,44 +47,12 @@ $stmt->close();
         <section class="main-advert">
             <h1>Placeholder</h1>
         </section>
-        <section class="main-posts">
-            <article class="main-post">
-                <img src="images/<?=$post['image_url'] ?>" alt="">
-                <h2><?=$post['title'] ?></h2>
-                <p>Post Content</p>
-                <p><?=$user['username'] ?></p>
-                <p><?=$post['created_at'] ?></p>
-            </article>
-            <article class="main-post">
-                <h2>Post Title</h2>
-                <p>Post Content</p>
-                <p>Post Author</p>
-                <p>Post Date</p>
-            </article>
-            <article class="main-post">
-                <h2>Post Title</h2>
-                <p>Post Content</p>
-                <p>Post Author</p>
-                <p>Post Date</p>
-            </article>
-            <article class="main-post">
-                <h2>Post Title</h2>
-                <p>Post Content</p>
-                <p>Post Author</p>
-                <p>Post Date</p>
-            </article>
-            <article class="main-post">
-                <h2>Post Title</h2>
-                <p>Post Content</p>
-                <p>Post Author</p>
-                <p>Post Date</p>
-            </article>
-            <article class="main-post">
-                <h2>Post Title</h2>
-                <p>Post Content</p>
-                <p>Post Author</p>
-                <p>Post Date</p>
-            </article>
+        <section>
+            <div class="main-posts">
+            <?php
+                generateBlogPosts();
+            ?>
+            </div>
         </section>
     </main>
     <footer>

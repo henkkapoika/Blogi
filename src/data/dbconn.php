@@ -11,7 +11,5 @@ if ($mysqli->connect_error) {
     echo 'Error: ' . $mysqli->connect_error . '\n';
     exit;
 }
-echo "Success: A proper connection to MySQL was made! The blog_db database is great." . PHP_EOL;
-
 
 ?>
