@@ -6,8 +6,9 @@ $stmt = $mysqli->prepare("SELECT * FROM blogs");
 $stmt->execute();
 $result = $stmt->get_result();
 
-echo "<ul class='main-post'>";
+
     while ($post = $result->fetch_assoc()) {
+        echo "<ul class='main-post'>";
         $userId = $post['user_id'];
 
         $stmt2 = $mysqli->prepare("SELECT username FROM users WHERE user_id = ?");
@@ -22,10 +23,12 @@ echo "<ul class='main-post'>";
         echo "<li>" . htmlspecialchars($user['username']) . "</li>";
         echo "<li>" . htmlspecialchars($post['created_at']) . "</li>";
 
+        echo "</ul>";
+
         $stmt2->close();
     }
 
-echo "</ul>";
+
 
 $stmt->close();
 
