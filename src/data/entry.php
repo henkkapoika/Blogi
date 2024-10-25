@@ -1,7 +1,38 @@
 <?php
 require "dbconn.php";
 
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title']) && isset($_POST['content']) && isset($_FILES['file'])) {
+    $title = htmlspecialchars($_POST['title']);
+    $content = htmlspecialchars($_POST['content']);
+    $file = $_FILES['file'];
+    $userId = 2;
 
+    if($file['error'] !== 0) {
+        echo "<div class='error'>There was an error uploading your file. Please try again.</div>";
+        exit();
+    } else if($file['size'] > 2000000) { // Noin 2MB
+        echo "<div class='error'>File is too large. Please try again.</div>";
+        exit();
+    } else if($file['type'] !== 'image/jpeg' && $file['type'] !== 'image/png') {
+        echo "<div class='error'>File type not supported. Please try again.</div>";
+        exit();
+    }
+
+    if(!empty($title) && !empty($content)) {
+        $stmt = $mysqli->prepare("INSERT INTO blogs (user_id, title, content, image_url) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $userId, $title, $content, $file['name']);
+        $stmt->execute();
+        $stmt->close();
+
+        move_uploaded_file($file['tmp_name'], "../images/" . $file['name']);
+
+        echo "<div class='success'>Your blog has been published!</div>";
+    } else {
+        echo "<div class='error'>Please fill out all fields.</div>";
+        exit();
+    }
+    
+}
 
 
 ?>

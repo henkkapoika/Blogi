@@ -17,7 +17,7 @@ require "data/post.php";
         <div class="header-field">
             <ul class="header-list">
                 <li>
-                    <a href="localhost:8000/">
+                    <a href="localhost:8000/index.php">
                         <img class="logo-image" src="images/bloghouse_logo.png" alt="Logo of the website">   
                     </a>
                 </li>
