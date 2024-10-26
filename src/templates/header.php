@@ -29,7 +29,19 @@ require "data/post.php";
                         <div class="modal-content">
                             <span class="close" id="close-login">&times;</span>
                             <h3>Login</h3>
-                            <form hx-post="data/login.php" hx-target="#login-feedback" hx-swap="innerHTML" class="header-form">
+                            <form hx-post="http://localhost:8000/data/login.php" 
+                                  hx-target="#login-feedback"
+                                  id="login-form" 
+                                  hx-swap="innerHTML" class="header-form"
+                                    hx-on::after-request="
+                                        let form = document.getElementById('login-form'); 
+                                        if (form) {
+                                            form.querySelectorAll('input').forEach(input => input.value = ''); 
+                                            let firstInput = form.querySelector('input');
+                                            if (firstInput) firstInput.focus();
+                                        }
+                                    "
+                                    >
                                 <label for="username">Username:</label>
                                 <input type="text" name="username" id="username">
                                 <label for="password">Password:</label>
@@ -44,7 +56,19 @@ require "data/post.php";
                         <div class="modal-content">
                             <span class="close" id="close-register">&times;</span>
                             <h3>Register</h3>
-                            <form hx-post="data/register.php" hx-target="#register-feedback" hx-swap="innerHTML" class="header-form">
+                            <form hx-post="http://localhost:8000/data/register.php" 
+                                  hx-target="#registration-feedback" 
+                                  id="register-form"
+                                  hx-swap="innerHTML" class="header-form"
+                                  hx-on::after-request="
+                                    let form = document.getElementById('register-form'); 
+                                    if (form) {
+                                        form.querySelectorAll('input').forEach(input => input.value = ''); 
+                                        let firstInput = form.querySelector('input');
+                                        if (firstInput) firstInput.focus();
+                                    }
+                                "
+                            >
                                 <label for="username">Username:</label>
                                 <input type="text" name="username" id="username">
                                 <label for="password">Password:</label>
@@ -60,16 +84,16 @@ require "data/post.php";
         <script>
             document.getElementById("open-login").onclick = function() {
                 document.getElementById("login-modal").style.display = "block";
-            }
+            };
             document.getElementById("close-login").onclick = function() {
                 document.getElementById("login-modal").style.display = "none";
-            }
+            };
             document.getElementById("open-register").onclick = function() {
                 document.getElementById("registration-modal").style.display = "block";
-            }
+            };
             document.getElementById("close-register").onclick = function() {
                 document.getElementById("registration-modal").style.display = "none";
-            }
+            };
 
             window.onclick = function(event) {
                 if(event.target == document.getElementById("login-modal")) {
@@ -78,5 +102,6 @@ require "data/post.php";
                 if(event.target == document.getElementById("registration-modal")) {
                     document.getElementById("registration-modal").style.display = "none";
                 }
-            }
+            };
+
         </script>
