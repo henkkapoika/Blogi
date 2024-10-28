@@ -1,4 +1,7 @@
-<?php require "templates/header.php" ?>
+<?php
+//session_start();
+require "templates/header.php" 
+?>
     </header>
     <main>
         <section class="main-advert">

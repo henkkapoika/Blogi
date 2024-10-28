@@ -229,3 +229,29 @@ form textarea {
     margin: 10px;
     gap: 10px;
 }
+
+.header-logout-btn {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.header-logout-btn:hover {
+    background-color: #c82333;
+}
+
+.header-logout-btn:active {
+    background-color: #bd2130;
+}
+
+.header-logout-btn:focus {
+    outline: none;
+}
+
+.hidden {
+    display: none;
+}

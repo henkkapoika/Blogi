@@ -1,7 +1,11 @@
 <?php
+session_start();
 require "data/dbconn.php";
 require "data/post.php";
 
+//require_once __DIR__ . '/../data/user_state.php';
+//require_once __DIR__ . '/../data/logout.php';
+//session_destroy();
 
 ?>
 <html lang="en">
@@ -24,24 +28,37 @@ require "data/post.php";
                 <li>
                     <a class="header-options" href="http://">User Page</a>
                     <a class="header-options" href="http://">About Us</a>
-                    <button id="open-login" class="header-btn">Login</button>
+
+                    <!--<div id="user-state" hx-get="data/user_state.php" hx-trigger="load" hx-swap="outerHTML"></div>-->
+
+                    <?php if (isset($_SESSION["username"])) : ?>
+                    <span class="header-username">Logged in as: <?php echo $_SESSION["username"]; ?></span>
+                    <button class="header-logout-btn" type="submit" 
+                            hx-post="../data/logout.php" 
+                            hx-target="#login-feedback"
+                            >Log Out</button>
+                    <?php else: ?>
+                        <button id="open-login" class="header-btn">Login</button>
+                        <button id="open-register" class="header-btn">Register</button>
+                    <?php endif; ?>
+                    <!-- Login Modal -->
                     <div id="login-modal" class="modal" style="display: none;">
                         <div class="modal-content">
                             <span class="close" id="close-login">&times;</span>
                             <h3>Login</h3>
-                            <form hx-post="http://localhost:8000/data/login.php" 
+                            <form hx-post="../data/login.php" 
                                   hx-target="#login-feedback"
                                   id="login-form" 
                                   hx-swap="innerHTML" class="header-form"
-                                    hx-on::after-request="
-                                        let form = document.getElementById('login-form'); 
-                                        if (form) {
-                                            form.querySelectorAll('input').forEach(input => input.value = ''); 
-                                            let firstInput = form.querySelector('input');
-                                            if (firstInput) firstInput.focus();
-                                        }
-                                    "
-                                    >
+                                  hx-on::after-request="
+                                    let form = document.getElementById('login-form'); 
+                                    if (form) {
+                                        form.querySelectorAll('input').forEach(input => input.value = ''); 
+                                        let firstInput = form.querySelector('input');
+                                        if (firstInput) firstInput.focus();
+                                    }
+                                "
+                            >
                                 <label for="username">Username:</label>
                                 <input type="text" name="username" id="username">
                                 <label for="password">Password:</label>
@@ -51,12 +68,13 @@ require "data/post.php";
                             <div id="login-feedback"></div>
                         </div>
                     </div>
-                    <button id="open-register" class="header-btn">Register</button>
+
+                    <!-- Registration Modal -->
                     <div id="registration-modal" class="modal" style="display: none;">
                         <div class="modal-content">
                             <span class="close" id="close-register">&times;</span>
                             <h3>Register</h3>
-                            <form hx-post="http://localhost:8000/data/register.php" 
+                            <form hx-post="../data/register.php" 
                                   hx-target="#registration-feedback" 
                                   id="register-form"
                                   hx-swap="innerHTML" class="header-form"
@@ -82,26 +100,45 @@ require "data/post.php";
             </ul>
         </div>
         <script>
-            document.getElementById("open-login").onclick = function() {
-                document.getElementById("login-modal").style.display = "block";
-            };
-            document.getElementById("close-login").onclick = function() {
-                document.getElementById("login-modal").style.display = "none";
-            };
-            document.getElementById("open-register").onclick = function() {
-                document.getElementById("registration-modal").style.display = "block";
-            };
-            document.getElementById("close-register").onclick = function() {
-                document.getElementById("registration-modal").style.display = "none";
-            };
+            document.addEventListener("DOMContentLoaded", function() {
+            const openLogin = document.getElementById("open-login");
+            const closeLogin = document.getElementById("close-login");
+            const openRegister = document.getElementById("open-register");
+            const closeRegister = document.getElementById("close-register");
+            const loginModal = document.getElementById("login-modal");
+            const registerModal = document.getElementById("registration-modal");
+
+            if (openLogin && loginModal) {
+                openLogin.onclick = function() {
+                    loginModal.style.display = "block";
+                };
+            }
+
+            if (closeLogin && loginModal) {
+                closeLogin.onclick = function() {
+                    loginModal.style.display = "none";
+                };
+            }
+
+            if (openRegister && registerModal) {
+                openRegister.onclick = function() {
+                    registerModal.style.display = "block";
+                };
+            }
+
+            if (closeRegister && registerModal) {
+                closeRegister.onclick = function() {
+                    registerModal.style.display = "none";
+                };
+            }
 
             window.onclick = function(event) {
-                if(event.target == document.getElementById("login-modal")) {
-                    document.getElementById("login-modal").style.display = "none";
+                if (event.target == loginModal) {
+                    loginModal.style.display = "none";
                 }
-                if(event.target == document.getElementById("registration-modal")) {
-                    document.getElementById("registration-modal").style.display = "none";
+                if (event.target == registerModal) {
+                    registerModal.style.display = "none";
                 }
             };
-
+        });
         </script>
