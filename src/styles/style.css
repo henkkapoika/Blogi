@@ -158,7 +158,7 @@ form textarea {
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
-    padding: 20px;
+    /* padding: 20px; */
     border: 1px solid #888;
     width: 80%;
 }
@@ -254,4 +254,22 @@ form textarea {
 
 .hidden {
     display: none;
+}
+
+.modal-header {
+    background-color: #007bff;
+    padding: 35px 50px;
+    color: #fff;
+    
+}
+
+.close {
+    color: #fff;
+    margin: 1rem;
+}
+
+.post-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }

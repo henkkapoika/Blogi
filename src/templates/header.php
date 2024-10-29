@@ -45,7 +45,9 @@ require "data/post.php";
                     <div id="login-modal" class="modal" style="display: none;">
                         <div class="modal-content">
                             <span class="close" id="close-login">&times;</span>
-                            <h3>Login</h3>
+                            <div class="modal-header">
+                                <h3>Login</h3>
+                            </div>
                             <form hx-post="../data/login.php" 
                                   hx-target="#login-feedback"
                                   id="login-form" 
@@ -73,7 +75,9 @@ require "data/post.php";
                     <div id="registration-modal" class="modal" style="display: none;">
                         <div class="modal-content">
                             <span class="close" id="close-register">&times;</span>
-                            <h3>Register</h3>
+                            <div class="modal-header">
+                                <h3>Register</h3>
+                            </div>
                             <form hx-post="../data/register.php" 
                                   hx-target="#registration-feedback" 
                                   id="register-form"
