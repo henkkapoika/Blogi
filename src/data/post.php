@@ -30,11 +30,7 @@ $result = $stmt->get_result();
 
         $stmt2->close();
     }
-
-
-
 $stmt->close();
-
 }
 ?>
 
