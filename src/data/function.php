@@ -24,4 +24,33 @@ function generateBlogPost(){
 
     $stmt->close();
 }
+
+function generateUserBlogs(){
+    require "dbconn.php";
+
+    $query = "
+        SELECT b.blog_id, b.title, b.created_at, b.image_url 
+        FROM blogs b 
+        JOIN users u ON b.user_id = u.user_id 
+        WHERE u.username = ?
+    ";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("s", $_SESSION['username']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($blog = $result->fetch_assoc()) {
+        echo "<div class='user-blog'>";
+        echo "<a href='blog.php?blog_id=" . htmlspecialchars($blog['blog_id']) . "'>";
+        echo "<img class='user-blog-img' src='images/" . htmlspecialchars($blog['image_url']) . "'>";
+        echo "<h3>" . htmlspecialchars($blog['title']) . "</h3>";
+        echo "<p>" . htmlspecialchars($blog['created_at']) . "</p>";
+        echo "<a href='blog.php?blog_id=" . htmlspecialchars($blog['blog_id']) . "'>Read more</a>";
+        echo "</a>";
+        echo "</div>";
+    }
+
+    $stmt->close();
+}
+
 ?>

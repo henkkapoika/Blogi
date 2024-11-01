@@ -4,7 +4,7 @@ require "templates/header.php";
 <main>
 <div>
     <form class="main-publish"
-        hx-post="http://localhost:8000/data/entry.php"
+        hx-post="data/entry.php"
         hx-target="#confirmation-message" 
         enctype="multipart/form-data"
         id="blogForm">

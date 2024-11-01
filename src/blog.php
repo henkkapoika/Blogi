@@ -2,7 +2,6 @@
 require "data/function.php";
 require 'templates/header.php';
 ?>
-</header>
     <main>
         <section>
             <div class="">

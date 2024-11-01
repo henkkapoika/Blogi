@@ -26,7 +26,7 @@ require "data/post.php";
                     </a>
                 </li>
                 <li>
-                    <a class="header-options" href="http://">User Page</a>
+                    <a class="header-options" href="../user.php">User Page</a>
                     <a class="header-options" href="http://">About Us</a>
 
                     <!--<div id="user-state" hx-get="data/user_state.php" hx-trigger="load" hx-swap="outerHTML"></div>-->
@@ -41,6 +41,7 @@ require "data/post.php";
                         <button id="open-login" class="header-btn">Login</button>
                         <button id="open-register" class="header-btn">Register</button>
                     <?php endif; ?>
+                    
                     <!-- Login Modal -->
                     <div id="login-modal" class="modal" style="display: none;">
                         <div class="modal-content">
@@ -146,3 +147,4 @@ require "data/post.php";
             };
         });
         </script>
+    </header>

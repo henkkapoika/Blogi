@@ -1,11 +1,12 @@
 <?php
+session_start();
 require "dbconn.php";
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title']) && isset($_POST['content']) && isset($_FILES['file'])) {
     $title = htmlspecialchars($_POST['title']);
     $content = htmlspecialchars($_POST['content']);
     $file = $_FILES['file'];
-    $userId = 2;
+    $userId = $_SESSION['user_id'];
 
     if($file['error'] !== 0) {
         echo "<div class='error'>There was an error uploading your file. Please try again.</div>";
