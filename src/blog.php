@@ -1,7 +1,6 @@
 <?php
 require "data/function.php";
 require 'templates/header.php';
-
 ?>
 </header>
     <main>
@@ -26,9 +25,6 @@ require 'templates/header.php';
                 <button type="submit">Submit</button>
             </form>
         </section>
-    </main>
-    <footer>
-
-    </footer>
-</body>
-</html>
+<?php
+require 'templates/footer.php';
+?>

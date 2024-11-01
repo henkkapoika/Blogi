@@ -1,4 +1,6 @@
-<?php require "templates/header.php" ?>
+<?php 
+require "templates/header.php"; 
+?>
 <main>
 <div>
     <form class="main-publish"
@@ -24,7 +26,6 @@
         document.getElementById("titleField").focus();
     });
 </script>
-</main>
-<footer>
-
-</footer>
+<?php
+require "templates/footer.php";
+?>

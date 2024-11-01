@@ -14,9 +14,6 @@ require "templates/header.php"
             ?>
             </div>
         </section>
-    </main>
-    <footer>
-
-    </footer>
-</body>
-</html>
+<?php
+require "templates/footer.php";
+?>

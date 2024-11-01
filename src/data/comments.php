@@ -10,7 +10,7 @@ if (isset($_GET['blog_id'])) {
 while ($comment = $result->fetch_assoc()) {
     echo "<div class='comment'>";
     echo "<p><strong>" . htmlspecialchars($comment['username']) . "</strong></p>";
-    echo "<p>Posted by: " . htmlspecialchars($comment['comment']) . "</p>";
+    echo "<p>Posted: " . htmlspecialchars($comment['comment']) . "</p>";
     echo "<p>Posted at: " . htmlspecialchars($comment['created_at']) . "</p>";
     echo "</div>";
 }
