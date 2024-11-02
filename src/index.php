@@ -5,10 +5,11 @@ require "templates/header.php"
     </header>
     <main>
         <section class="main-advert">
-            <h1>Placeholder</h1>
-            <a href="publish.php">
+            <div>
+                <a href="publish.php">
                 <button>Publish your blog!</button>
             </a>
+            </div>
         </section>
         <section>
             <div class="main-posts">

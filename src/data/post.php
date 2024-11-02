@@ -21,8 +21,8 @@ $result = $stmt->get_result();
         echo "<a href='blog.php?blog_id=" . $blogId . "' class='post-link'>";
         echo "<ul class='main-post'>";
         echo "<li><img class='post-img' src='images/" . htmlspecialchars($post['image_url']) . "'></li>";
-        echo "<li>" . htmlspecialchars($post['title']) . "</li>";
-        echo "<li>" . htmlspecialchars($user['username']) . "</li>";
+        echo "<li class='title'>" . htmlspecialchars($post['title']) . "</li>";
+        echo "<li><strong>" . htmlspecialchars($user['username']) . "</strong></li>";
         echo "<li>" . htmlspecialchars($post['created_at']) . "</li>";
 
         echo "</ul>";
