@@ -513,3 +513,12 @@ form textarea {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
+.comment-edit {
+    margin: 5px;
+    padding: 5px;
+}
+
+.edited_at {
+    font-size: 0.8rem;
+    color: #333;
+}

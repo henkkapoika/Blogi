@@ -9,19 +9,24 @@ if (isset($_GET['blog_id'])) {
     $result = $stmt->get_result();
 
     while ($comment = $result->fetch_assoc()) {
+        echo "<div class='comment-wrapper' id='comment-wrapper-" . trim(htmlspecialchars($comment['comment_id'])) . "'>";
         echo "<div id='comment-" . htmlspecialchars($comment['comment_id']) . "' class='comment'>";
         echo "<p><strong>" . htmlspecialchars($comment['username']) . "</strong></p>";
         echo "<p>Posted: " . htmlspecialchars($comment['comment']) . "</p>";
         echo "<p>Posted at: " . htmlspecialchars($comment['created_at']) . "</p>";
 
         if ($comment['edited_at']) {
-            echo "<p>Edited at: " . htmlspecialchars($comment['edited_at']) . "</p>";
+            echo "<p class='edited_at'>Edited at: " . htmlspecialchars($comment['edited_at']) . "</p>";
         }
 
         //if (isset($_SESSION['username']) && $_SESSION['username'] === $comment['username']) {
-            echo "<a href='#' hx-get='data/edit_comment.php?comment_id=" . htmlspecialchars($comment['comment_id']) . "&blog_id=" . htmlspecialchars($blogId) . "' hx-target='#comment-" . htmlspecialchars($comment['comment_id']) . "' hx-swap='outerHTML'>Edit</a>";
+            echo "<a href='#' hx-get='data/edit_comment.php?comment_id=" . htmlspecialchars($comment['comment_id']) . "&blog_id=" . htmlspecialchars($blogId) . "' 
+            hx-target='#comment-" . htmlspecialchars($comment['comment_id']) . "'  
+            hx-swap='outerHTML'
+            hx-ext='debug'>Edit</a>";
         //}
 
+        echo "</div>";
         echo "</div>";
     }
 
