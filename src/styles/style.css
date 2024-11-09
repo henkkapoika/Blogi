@@ -522,3 +522,17 @@ form textarea {
     font-size: 0.8rem;
     color: #333;
 }
+
+.username {
+    font-size: 1.1rem;
+    color: #333;
+    text-decoration: underline;
+}
+
+.comment-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}

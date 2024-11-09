@@ -11,9 +11,12 @@ if (isset($_GET['blog_id'])) {
     while ($comment = $result->fetch_assoc()) {
         echo "<div class='comment-wrapper' id='comment-wrapper-" . trim(htmlspecialchars($comment['comment_id'])) . "'>";
         echo "<div id='comment-" . htmlspecialchars($comment['comment_id']) . "' class='comment'>";
-        echo "<p><strong>" . htmlspecialchars($comment['username']) . "</strong></p>";
-        echo "<p>Posted: " . htmlspecialchars($comment['comment']) . "</p>";
-        echo "<p>Posted at: " . htmlspecialchars($comment['created_at']) . "</p>";
+        echo "<div class='comment-header'>";
+        echo "<p class='username'><strong>" . htmlspecialchars($comment['username']) . "</strong></p>";
+        echo "<p>" . htmlspecialchars($comment['created_at']) . "</p>";
+        echo "</div>";
+        echo "<p>" . htmlspecialchars($comment['comment']) . "</p>";
+        
 
         if ($comment['edited_at']) {
             echo "<p class='edited_at'>Edited at: " . htmlspecialchars($comment['edited_at']) . "</p>";
