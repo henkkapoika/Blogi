@@ -365,7 +365,7 @@ form textarea {
     align-items: flex-start;
     padding: 20px;
     margin: 1rem 0;
-    background-color: #ffffff;
+    background-color: #c6cbd1;
     border: 1px solid #ddd;
     border-radius: 8px; 
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
@@ -535,4 +535,44 @@ form textarea {
     justify-content: space-between;
     align-items: center;
     gap: 10px;
+}
+
+.user-btn {
+    padding: 20px 40px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.user-btn:hover {
+    background-color: #0056b3;
+}
+
+.user-btn:active {
+    background-color: #0056b3;
+}
+
+.user-btn:focus {
+    outline: none;
+}
+
+.user-btn-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px;
+}
+
+.index-main {
+    background-image: url('../images/publish-img.jpg');
+    align-items: center;
+    height: 40vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
 }

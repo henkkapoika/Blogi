@@ -4,8 +4,8 @@ require "templates/header.php"
 ?>
     </header>
     <main>
-        <section class="main-advert">
-            <div>
+        <section class="main-advert index-main">
+            <div class="">
                 <a href="publish.php">
                 <button>Publish your blog!</button>
             </a>

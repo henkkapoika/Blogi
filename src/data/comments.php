@@ -1,5 +1,6 @@
 <?php
 require "dbconn.php";
+session_start();
 
 if (isset($_GET['blog_id'])) {
     $blogId = $_GET['blog_id'];
@@ -22,12 +23,12 @@ if (isset($_GET['blog_id'])) {
             echo "<p class='edited_at'>Edited at: " . htmlspecialchars($comment['edited_at']) . "</p>";
         }
 
-        //if (isset($_SESSION['username']) && $_SESSION['username'] === $comment['username']) {
+        if (isset($_SESSION['username']) && $_SESSION['username'] === $comment['username']) {
             echo "<a href='#' hx-get='data/edit_comment.php?comment_id=" . htmlspecialchars($comment['comment_id']) . "&blog_id=" . htmlspecialchars($blogId) . "' 
             hx-target='#comment-" . htmlspecialchars($comment['comment_id']) . "'  
             hx-swap='outerHTML'
             hx-ext='debug'>Edit</a>";
-        //}
+        }
 
         echo "</div>";
         echo "</div>";

@@ -29,7 +29,10 @@ $user = $result->fetch_assoc();
                 <p><strong>Profile updated:</strong> <?php echo htmlspecialchars($user['updated_at']); ?></p>
             <?php endif; ?>
         </div>
-        <button id="change-password-btn">Change Password</button>
+        <div class="user-btn-div">
+            <button class="user-btn" id="change-password-btn">Update your password</button>
+        </div>
+        
         <div id="password-modal" class="modal" style="display: none;">
             <div class="modal-content">
                 <span class="close" id="close-password">&times;</span>
