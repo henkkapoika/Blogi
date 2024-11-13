@@ -651,8 +651,4 @@ form textarea {
     margin-bottom: 10px;
 }
 
-.modal-content form button {
-    width: auto;
-    padding: 8px 16px;
-    cursor: pointer;
-}
+

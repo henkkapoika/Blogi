@@ -57,7 +57,7 @@ $user = $result->fetch_assoc();
         </div>
     </section>
     <section>
-        <div class="user-blogs">
+        <div class="user-blogs" id="user-blogs">
             <h2>Your Blogs</h2>
             <?php
             require "data/function.php";
@@ -121,6 +121,9 @@ $user = $result->fetch_assoc();
         if (event.detail.target.id === "edit-form") {
             const editModal = document.getElementById("edit-modal");
             if (editModal) editModal.style.display = "none";
+
+            // Refresh
+            htmx.trigger("#user-blogs", "htmx:get", { target: "#user-blogs" });
         }
     });
 </script>
