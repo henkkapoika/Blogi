@@ -32,7 +32,7 @@ $user = $result->fetch_assoc();
         <div class="user-btn-div">
             <button class="user-btn" id="change-password-btn">Update your password</button>
         </div>
-        
+
         <div id="password-modal" class="modal" style="display: none;">
             <div class="modal-content">
                 <span class="close" id="close-password">&times;</span>
@@ -63,10 +63,17 @@ $user = $result->fetch_assoc();
             require "data/function.php";
             generateUserBlogs();
             ?>
+        </div>
+        <div id="edit-modal" class="modal" style="display: none;">
+            
+        </div>
+    </section>
 </main>
 <script>
     const passwordModal = document.getElementById("password-modal");
     const closeBtn = document.getElementById("close-password");
+    const editModal = document.getElementById("edit-modal");
+    const closeEditBtn = document.getElementById("close-edit-modal");
     const changePasswordBtn = document.getElementById("change-password-btn");
 
     function openPasswordModal() {
@@ -84,6 +91,36 @@ $user = $result->fetch_assoc();
     window.addEventListener("click", function(event) {
         if (event.target === passwordModal) {
             passwordModal.style.display = "none";
+        }
+    });
+
+    // Edit modal
+    document.addEventListener("htmx:afterOnLoad", (event) => {
+        if (event.detail.target.id === "edit-modal") {
+            const editModal = document.getElementById("edit-modal");
+            editModal.style.display = "block";
+
+            
+            const closeEditBtn = document.getElementById("close-edit-modal");
+            closeEditBtn.addEventListener("click", function() {
+                editModal.style.display = "none";
+            });
+        }
+    });
+
+    
+    window.addEventListener("click", (event) => {
+        const editModal = document.getElementById("edit-modal");
+        if (editModal && event.target === editModal) {
+            editModal.style.display = "none";
+        }
+    });
+
+    
+    document.addEventListener("htmx:afterRequest", function(event) {
+        if (event.detail.target.id === "edit-form") {
+            const editModal = document.getElementById("edit-modal");
+            if (editModal) editModal.style.display = "none";
         }
     });
 </script>

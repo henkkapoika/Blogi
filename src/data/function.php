@@ -45,8 +45,8 @@ function generateUserBlogs(){
         echo "<img class='user-blog-img' src='images/" . htmlspecialchars($blog['image_url']) . "'>";
         echo "<h3>" . htmlspecialchars($blog['title']) . "</h3>";
         echo "<p>" . htmlspecialchars($blog['created_at']) . "</p>";
-        echo "<a href='blog.php?blog_id=" . htmlspecialchars($blog['blog_id']) . "'>Read more</a>";
         echo "</a>";
+        echo "<a href='#' hx-get='data/edit_entry.php?blog_id=" . htmlspecialchars($blog['blog_id']) . "' hx-target='#edit-modal' hx-trigger='click'>Edit</a>";
         echo "</div>";
     }
 

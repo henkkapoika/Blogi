@@ -143,6 +143,8 @@ form textarea {
 }
 
 .success {
+    text-align: center;
+    margin-top: 5rem;
     color: #28a745;
     font-weight: bold;
 }
@@ -270,7 +272,7 @@ form textarea {
     background-color: #007bff;
     padding: 35px 50px;
     color: #fff;
-    
+    border-radius: 4px;
 }
 
 .close {
@@ -602,4 +604,55 @@ form textarea {
     margin: 1rem 0;
     background-color: #ffffff;
     border: 1px solid #ddd;
+}
+
+/* */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    width: 90%; 
+    max-width: 500px; 
+    padding: 20px;
+    border-radius: 8px;
+    position: relative; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden; 
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+}
+
+.modal-content form label, 
+.modal-content form input, 
+.modal-content form textarea, 
+.modal-content form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.modal-content form button {
+    width: auto;
+    padding: 8px 16px;
+    cursor: pointer;
 }

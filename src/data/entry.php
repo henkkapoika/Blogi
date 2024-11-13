@@ -1,12 +1,14 @@
 <?php
 session_start();
 require "dbconn.php";
+date_default_timezone_set('Europe/Helsinki');
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title']) && isset($_POST['content']) && isset($_FILES['file'])) {
     $title = htmlspecialchars($_POST['title']);
     $content = htmlspecialchars($_POST['content']);
     $file = $_FILES['file'];
     $userId = $_SESSION['user_id'];
+    $created_at = date("Y-m-d H:i:s");
 
     if($file['error'] !== 0) {
         echo "<div class='error'>There was an error uploading your file. Please try again.</div>";
@@ -20,8 +22,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title']) && isset($_PO
     }
 
     if(!empty($title) && !empty($content)) {
-        $stmt = $mysqli->prepare("INSERT INTO blogs (user_id, title, content, image_url) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $userId, $title, $content, $file['name']);
+        $stmt = $mysqli->prepare("INSERT INTO blogs (user_id, title, content, image_url, created_at) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $userId, $title, $content, $file['name'], $created_at);
         $stmt->execute();
         $stmt->close();
 
