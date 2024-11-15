@@ -1,9 +1,26 @@
 <?php
+
+function getLikeCount(){
+    require "dbconn.php";
+
+    $stmt = $mysqli->prepare("SELECT COUNT(*) as like_count FROM likes WHERE blog_id = ?");
+    $stmt->bind_param("i", $_GET['blog_id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($like = $result->fetch_assoc()) {
+        $stmt->close();
+        return $like['like_count'];
+    } else {
+        $stmt->close();
+        return 0;
+    }
+}
+
 function generateBlogPost(){
     require "dbconn.php";
 
     $stmt = $mysqli->prepare("SELECT * FROM blogs WHERE blog_id = ?");
-    $stmt->bind_param("s", $_GET['blog_id']);
+    $stmt->bind_param("i", $_GET['blog_id']);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -11,14 +28,22 @@ function generateBlogPost(){
 
     $formattedContent = "<p>" . implode("</p><p>", array_filter(explode("\n", htmlspecialchars($blog['content'])))) . "</p>";
 
-    echo "<div class='mainblog-posts'>";
+    $likeCount = getLikeCount($blog['blog_id']);
+
+    echo "<div id='blog-post-' ". htmlspecialchars($blog['blog_id'])  ." class='mainblog-posts'>";
     echo "<div class='blog-header' style='background-image: url(images/" . htmlspecialchars($blog['image_url']) . ");'>";
-    //echo "<img class='blog-img content-wrapper-img' src='images/" . htmlspecialchars($blog['image_url']) . "'>";
     echo "<h1 class='blog-center'>" . htmlspecialchars($blog['title']) . "</h1>";
     echo "</div>";
     echo "<div class='blog-content content-wrapper'>";
     echo "<p class=''>" . $formattedContent . "</p>";
     echo "<p>" . htmlspecialchars($blog['created_at']) . "</p>";
+    echo '<button class="like-button" 
+                hx-post="data/like_blog.php" 
+                hx-include="[name=\'blog_id\']" 
+                hx-target="#like-count-' . htmlspecialchars($blog['blog_id']) . '" 
+                hx-swap="outerHTML">Like</button>
+            <span id="like-count-' . htmlspecialchars($blog['blog_id']) . '">' . $likeCount . ' Likes</span>';
+        echo '<input type="hidden" name="blog_id" value="' . htmlspecialchars($blog['blog_id']) . '">';
     echo "</div>";
     echo "</div>";
 
@@ -26,11 +51,15 @@ function generateBlogPost(){
 }
 
 function generateUserBlogHtml($blog, $includeSwapOob = false) {
+    require "dbconn.php";
+
     $blogId = htmlspecialchars($blog['blog_id']);
     $title = htmlspecialchars($blog['title']);
     $createdAt = htmlspecialchars($blog['created_at']);
     $imageUrl = htmlspecialchars($blog['image_url']);
     $swapOobAttribute = $includeSwapOob ? ' hx-swap-oob="outerHTML"' : '';
+
+    $likeCount = getLikeCount($blog['blog_id']);
 
     return '
     <div id="blog-post-' . $blogId . '" class="user-blog"' . $swapOobAttribute . '>
@@ -39,6 +68,7 @@ function generateUserBlogHtml($blog, $includeSwapOob = false) {
             <h3>' . $title . '</h3>
             <p>' . $createdAt . '</p>
         </a>
+        <span class="like-count" id="user-like-count-' . $blogId . '">' . $likeCount . ' Likes</span>
         <button class="edit-button"
             hx-get="data/edit_entry.php?blog_id=' . $blogId . '"
             hx-target="#edit-modal"

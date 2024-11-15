@@ -53,7 +53,7 @@ require "data/post.php";
                             hx-target="#login-feedback"
                             id="login-form"
                             hx-swap="innerHTML" class="header-form">
-                            
+
                             <label for="username">Username:</label>
                             <input type="text" name="username" id="username">
                             <label for="password">Password:</label>
@@ -167,6 +167,6 @@ require "data/post.php";
                         document.getElementById('login-modal').style.display = 'none';
                     }
                 }
-            });
+            });            
         </script>
     </header>

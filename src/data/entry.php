@@ -3,10 +3,10 @@ session_start();
 require "dbconn.php";
 date_default_timezone_set('Europe/Helsinki');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title']) && isset($_POST['content']) && isset($_FILES['file'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title']) && isset($_POST['content']) && isset($_FILES['image'])) {
     $title = htmlspecialchars($_POST['title']);
     $content = htmlspecialchars($_POST['content']);
-    $file = $_FILES['file'];
+    $file = $_FILES['image'];
     $userId = $_SESSION['user_id'];
     $created_at = date("Y-m-d H:i:s");
 

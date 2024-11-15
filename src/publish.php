@@ -12,18 +12,21 @@ require "templates/header.php";
 ?>
 <main>
 <div>
-    <form class="main-publish"
+    <form id="blogForm" class="main-publish"
         hx-post="data/entry.php"
         
         enctype="multipart/form-data"
         id="blogForm">
         <label for="">Blog entry name:</label>
-        <input type="text" name="title" class="post-title" id="titleField">
+        <input type="text" name="title" class="post-title" id="titleField" required>
+
         <label for="">Blog content:</label>
-        <textarea rows="25" cols="60" name="content"></textarea>
+        <textarea rows="25" cols="60" name="content" required></textarea>
+
         <label for="">Upload a picture:</label>
-        <input type="file" name="file" accept="image/jpeg, image/png" maxlength="2000000">
-        <button type="submit">Publish your blog!</button>
+        <input type="file" id="fileInput" name="image" accept="image/*" maxlength="2000000">
+
+        <button type="submit" id="submit-button">Publish your blog!</button>
     </form>
 
     <div id="confirmation-message"></div>

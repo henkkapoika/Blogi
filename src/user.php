@@ -56,6 +56,7 @@ $user = $result->fetch_assoc();
             </div>
         </div>
     </section>
+
     <section>
         <h2 class="blog-heading">Your Blogs</h2>
         <div class="user-blogs" id="user-blogs">
@@ -140,8 +141,6 @@ $user = $result->fetch_assoc();
         }
     }
 });
-
-    
 </script>
 <?php
 require "templates/footer.php";

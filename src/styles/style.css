@@ -443,8 +443,16 @@ form textarea {
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
-    
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
 }
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
 
 .user-blog img {
     max-width: 100%;
@@ -697,4 +705,28 @@ form textarea {
     font-weight: 500;
     margin: 10px 0;
     text-align: center;
+}
+
+.logo-image {
+    border-radius: 7px;
+    
+}
+
+.logo-image:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.like-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.like-count {
+    font-size: 1.1rem;
+    color: #333;
 }
