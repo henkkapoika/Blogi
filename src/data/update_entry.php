@@ -1,8 +1,9 @@
 <?php
 require "dbconn.php";
+require "function.php";
 date_default_timezone_set('Europe/Helsinki');
 
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id']) && isset($_POST['title']) && isset($_POST['content'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id']) && isset($_POST['title']) && isset($_POST['content'])) {
     $blogId = htmlspecialchars($_POST['blog_id']);
     $title = htmlspecialchars($_POST['title']);
     $content = htmlspecialchars($_POST['content']);
@@ -12,7 +13,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id']) && isset($_
     $params = [$title, $content, $updated_at];
     $types = "sss";
 
-    if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $imgUrl = $_FILES['image']['name'];
         move_uploaded_file($_FILES['image']['tmp_name'], "../images/" . $imgUrl);
         $updatedQuery .= ", image_url = ?";
@@ -29,8 +30,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blog_id']) && isset($_
     $stmt->execute();
     $stmt->close();
 
-    echo "<div class='success'>Blog updated successfully! Click anywhere on the page to continue.</div>";
+
+    $stmt = $mysqli->prepare("SELECT * FROM blogs WHERE blog_id = ?");
+    $stmt->bind_param("i", $blogId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $blog = $result->fetch_assoc();
+    $stmt->close();
+
+    echo generateUserBlogHtml($blog, true);
+
+    echo '
+<script>
+    document.getElementById("edit-modal").style.display = "none";
+</script>
+';
 }
-
-
-?>

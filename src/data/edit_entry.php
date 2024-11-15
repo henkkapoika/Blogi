@@ -12,6 +12,7 @@ if (isset($_GET['blog_id'])) {
     $blog = $result->fetch_assoc();
 
     $stmt->close();
+    //hx-target="#edit-modal" hx-swap="innerHTML" 
 ?>
 
     <div class="modal-content">
@@ -19,7 +20,7 @@ if (isset($_GET['blog_id'])) {
             <div class="modal-header">
                 <h3>Edit Blog Post</h3>
             </div>
-            <form id="edit-form" hx-post="data/update_entry.php" hx-target="#edit-modal" hx-swap="innerHTML" enctype="multipart/form-data">
+            <form id="edit-form" hx-post="data/update_entry.php" hx-swap="none" enctype="multipart/form-data">
                 <input type="hidden" name="blog_id" value="<?php echo htmlspecialchars($blogId); ?>">
 
                 <div class="form-group">

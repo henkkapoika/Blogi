@@ -57,15 +57,16 @@ $user = $result->fetch_assoc();
         </div>
     </section>
     <section>
+        <h2 class="blog-heading">Your Blogs</h2>
         <div class="user-blogs" id="user-blogs">
-            <h2>Your Blogs</h2>
+
             <?php
             require "data/function.php";
             generateUserBlogs();
             ?>
         </div>
         <div id="edit-modal" class="modal" style="display: none;">
-            
+
         </div>
     </section>
 </main>
@@ -100,7 +101,7 @@ $user = $result->fetch_assoc();
             const editModal = document.getElementById("edit-modal");
             editModal.style.display = "block";
 
-            
+
             const closeEditBtn = document.getElementById("close-edit-modal");
             closeEditBtn.addEventListener("click", function() {
                 editModal.style.display = "none";
@@ -108,7 +109,7 @@ $user = $result->fetch_assoc();
         }
     });
 
-    
+
     window.addEventListener("click", (event) => {
         const editModal = document.getElementById("edit-modal");
         if (editModal && event.target === editModal) {
@@ -116,16 +117,31 @@ $user = $result->fetch_assoc();
         }
     });
 
-    
+
     document.addEventListener("htmx:afterRequest", function(event) {
         if (event.detail.target.id === "edit-form") {
             const editModal = document.getElementById("edit-modal");
             if (editModal) editModal.style.display = "none";
 
             // Refresh
-            htmx.trigger("#user-blogs", "htmx:get", { target: "#user-blogs" });
+            htmx.trigger("#user-blogs", "htmx:get", {
+                target: "#user-blogs"
+            });
         }
     });
+
+    // Delete
+    document.body.addEventListener('htmx:afterRequest', function(evt) {
+    if (evt.detail.xhr && evt.detail.xhr.responseURL.includes('delete_entry.php')) {
+        if (evt.detail.xhr.status === 200) {
+            alert('Blog post deleted successfully.');
+        } else {
+            alert(evt.detail.xhr.responseText);
+        }
+    }
+});
+
+    
 </script>
 <?php
 require "templates/footer.php";

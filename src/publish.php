@@ -1,11 +1,20 @@
 <?php 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit();
+}
+
 require "templates/header.php"; 
 ?>
 <main>
 <div>
     <form class="main-publish"
         hx-post="data/entry.php"
-        hx-target="#confirmation-message" 
+        
         enctype="multipart/form-data"
         id="blogForm">
         <label for="">Blog entry name:</label>
