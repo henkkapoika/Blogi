@@ -1,22 +1,31 @@
 <?php
 
-function getLikeCount(){
+function getLikeCount($blogId){
     require "dbconn.php";
+    global $mysqli;
+    
+    $blog_id = $blogId;
 
-    $stmt = $mysqli->prepare("SELECT COUNT(*) as like_count FROM likes WHERE blog_id = ?");
-    $stmt->bind_param("i", $_GET['blog_id']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($like = $result->fetch_assoc()) {
-        $stmt->close();
-        return $like['like_count'];
-    } else {
+    if (!$stmt = $mysqli->prepare("SELECT COUNT(*) as like_count FROM likes WHERE blog_id = ?")) {
+        error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+        return 0;
+    }
+
+    $stmt->bind_param("i", $blog_id);
+    if (!$stmt->execute()) {
+        error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
         $stmt->close();
         return 0;
     }
+
+    $result = $stmt->get_result();
+    $like = $result->fetch_assoc();
+    $stmt->close();
+    return isset($like['like_count']) ? intval($like['like_count']) : 0;
 }
 
 function generateBlogPost(){
+    
     require "dbconn.php";
 
     $stmt = $mysqli->prepare("SELECT * FROM blogs WHERE blog_id = ?");
@@ -30,20 +39,22 @@ function generateBlogPost(){
 
     $likeCount = getLikeCount($blog['blog_id']);
 
-    echo "<div id='blog-post-' ". htmlspecialchars($blog['blog_id'])  ." class='mainblog-posts'>";
+    echo "<div id='blog-post-' ". intval($blog['blog_id'])  ." class='mainblog-posts'>";
     echo "<div class='blog-header' style='background-image: url(images/" . htmlspecialchars($blog['image_url']) . ");'>";
     echo "<h1 class='blog-center'>" . htmlspecialchars($blog['title']) . "</h1>";
     echo "</div>";
     echo "<div class='blog-content content-wrapper'>";
     echo "<p class=''>" . $formattedContent . "</p>";
     echo "<p>" . htmlspecialchars($blog['created_at']) . "</p>";
-    echo '<button class="like-button" 
+    if(isset($_SESSION['user_id'])){
+        echo '<button class="like-button" 
                 hx-post="data/like_blog.php" 
                 hx-include="[name=\'blog_id\']" 
-                hx-target="#like-count-' . htmlspecialchars($blog['blog_id']) . '" 
+                hx-target="#like-count-' . intval($blog['blog_id']) . '" 
                 hx-swap="outerHTML">Like</button>
-            <span id="like-count-' . htmlspecialchars($blog['blog_id']) . '">' . $likeCount . ' Likes</span>';
-        echo '<input type="hidden" name="blog_id" value="' . htmlspecialchars($blog['blog_id']) . '">';
+            <span id="like-count-' . intval($blog['blog_id']) . '">' . $likeCount . ' Likes</span>';
+        echo '<input type="hidden" name="blog_id" value="' . intval($blog['blog_id']) . '">';
+    }
     echo "</div>";
     echo "</div>";
 
@@ -51,15 +62,13 @@ function generateBlogPost(){
 }
 
 function generateUserBlogHtml($blog, $includeSwapOob = false) {
-    require "dbconn.php";
-
-    $blogId = htmlspecialchars($blog['blog_id']);
+    $blogId = intval($blog['blog_id']);
     $title = htmlspecialchars($blog['title']);
     $createdAt = htmlspecialchars($blog['created_at']);
     $imageUrl = htmlspecialchars($blog['image_url']);
     $swapOobAttribute = $includeSwapOob ? ' hx-swap-oob="outerHTML"' : '';
 
-    $likeCount = getLikeCount($blog['blog_id']);
+    $likeCount = getLikeCount($blogId);
 
     return '
     <div id="blog-post-' . $blogId . '" class="user-blog"' . $swapOobAttribute . '>
@@ -87,15 +96,18 @@ function generateUserBlogHtml($blog, $includeSwapOob = false) {
 
 function generateUserBlogs(){
     require "dbconn.php";
+    global $mysqli;
+
+    $user_id = intval($_SESSION['user_id']);
 
     $query = "
         SELECT b.blog_id, b.title, b.created_at, b.image_url 
         FROM blogs b 
         JOIN users u ON b.user_id = u.user_id 
-        WHERE u.username = ?
+        WHERE u.user_id = ?
     ";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("s", $_SESSION['username']);
+    $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
