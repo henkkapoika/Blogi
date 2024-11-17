@@ -1,17 +1,52 @@
 <?php
 
+function getPopularityScore($blogId){
+    require "dbconn.php";
+    
+    $blogId = intval($blogId);
+
+    $likes = getLikeCount($blogId);
+
+    $comments = getCommentCount($blogId);
+
+    $popularity = ($likes * 2) + $comments;
+    return $popularity;
+}
+
+function getCommentCount($blogId){
+    require "dbconn.php";
+    
+    $query = "SELECT COUNT(*) as comment_count FROM comments WHERE blog_id = ?";
+
+    if (!$stmt = $mysqli->prepare($query)) {
+        error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
+        return 0;
+    }
+
+    $stmt->bind_param("i", $blogId);
+
+    if (!$stmt->execute()) {
+        error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+        $stmt->close();
+        return 0;
+    }
+
+    $result = $stmt->get_result();
+    $commentData = $result->fetch_assoc();
+    $stmt->close();
+    return isset($commentData['comment_count']) ? intval($commentData['comment_count']) : 0;
+}
+
+
 function getLikeCount($blogId){
     require "dbconn.php";
-    global $mysqli;
-    
-    $blog_id = $blogId;
 
     if (!$stmt = $mysqli->prepare("SELECT COUNT(*) as like_count FROM likes WHERE blog_id = ?")) {
         error_log("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
         return 0;
     }
 
-    $stmt->bind_param("i", $blog_id);
+    $stmt->bind_param("i", $blogId);
     if (!$stmt->execute()) {
         error_log("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
         $stmt->close();
@@ -38,8 +73,9 @@ function generateBlogPost(){
     $formattedContent = "<p>" . implode("</p><p>", array_filter(explode("\n", htmlspecialchars($blog['content'])))) . "</p>";
 
     $likeCount = getLikeCount($blog['blog_id']);
+    $commentCount = getCommentCount($blog['blog_id']);
 
-    echo "<div id='blog-post-' ". intval($blog['blog_id'])  ." class='mainblog-posts'>";
+    echo "<div id='blog-post-". intval($blog['blog_id']) . "' class='mainblog-posts'>";
     echo "<div class='blog-header' style='background-image: url(images/" . htmlspecialchars($blog['image_url']) . ");'>";
     echo "<h1 class='blog-center'>" . htmlspecialchars($blog['title']) . "</h1>";
     echo "</div>";
@@ -55,6 +91,7 @@ function generateBlogPost(){
             <span id="like-count-' . intval($blog['blog_id']) . '">' . $likeCount . ' Likes</span>';
         echo '<input type="hidden" name="blog_id" value="' . intval($blog['blog_id']) . '">';
     }
+    echo "<p>Comments: " . $commentCount . "</p>";
     echo "</div>";
     echo "</div>";
 
@@ -96,7 +133,6 @@ function generateUserBlogHtml($blog, $includeSwapOob = false) {
 
 function generateUserBlogs(){
     require "dbconn.php";
-    global $mysqli;
 
     $user_id = intval($_SESSION['user_id']);
 
