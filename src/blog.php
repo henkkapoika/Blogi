@@ -17,6 +17,14 @@ require 'templates/header.php';
             <p>Loading comments...</p>
         </div>
     </div>
+    <div id="user-details-modal" class="modal2" style="display: none;">
+        <div class="modal-content2">
+            <span id="close-user-details" class="close2">&times;</span>
+            <div id="modal-body">
+                <p>Loading user details...</p>
+            </div>
+        </div>
+    </div>
     <section id="comment-form-section">
         <form hx-post="data/submit_comment.php" hx-target="#comments-container" hx-swap="afterbegin" hx-on:afterRequest="this.reset()" class="comment-form">
             <input type="hidden" name="blog_id" value="<?php echo intval($_GET['blog_id']); ?>">
@@ -27,6 +35,35 @@ require 'templates/header.php';
             <button type="submit">Submit</button>
         </form>
     </section>
+    <script>
+        document.addEventListener('htmx:beforeRequest', function(evt) {
+            if (evt.detail.elt.matches('a[data-username]')) {
+                document.getElementById('user-details-modal').style.display = 'block';
+            }
+        });
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('user-details-modal');
+            if (event.target === modal) {
+                modal.classList.remove('show');
+            }
+        };
+
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('.close2')) {
+                document.getElementById('user-details-modal').style.display = 'none';
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                var modal = document.getElementById('user-details-modal');
+                if (modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                }
+            }
+        });
+    </script>
     <?php
     require 'templates/footer.php';
     ?>

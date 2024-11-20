@@ -4,16 +4,29 @@ session_start();
 
 if (isset($_GET['blog_id'])) {
     $blogId = intval($_GET['blog_id']);
-    $stmt = $mysqli->prepare("SELECT c.comment, c.created_at, c.edited_at, u.username, c.comment_id FROM comments c JOIN users u ON c.user_id = u.user_id WHERE c.blog_id = ? ORDER BY c.created_at DESC");
+    $stmt = $mysqli->prepare("SELECT c.comment, c.created_at, c.edited_at, u.username, u.profile_picture, c.comment_id FROM comments c JOIN users u ON c.user_id = u.user_id WHERE c.blog_id = ? ORDER BY c.created_at DESC");
     $stmt->bind_param("i", $blogId);
     $stmt->execute();
     $result = $stmt->get_result();
 
     while ($comment = $result->fetch_assoc()) {
+        $profilePicture = !empty($comment['profile_picture']) ? $comment['profile_picture'] : 'uploads/default.png';
+
         echo "<div class='comment-wrapper' id='comment-wrapper-" . trim(htmlspecialchars($comment['comment_id'])) . "'>";
         echo "<div id='comment-" . intval($comment['comment_id']) . "' class='comment'>";
         echo "<div class='comment-header'>";
-        echo "<p class='username'><strong>" . htmlspecialchars($comment['username']) . "</strong></p>";
+        echo "<img src='" . htmlspecialchars($profilePicture) . "' alt='Profile Picture' class='comment-profile-picture'>";
+        echo "<p class='username'>
+            <a href='#' 
+               hx-get='data/user_details.php?username=" . urlencode($comment['username']) . "' 
+               hx-target='#modal-body'
+               hx-trigger='click' 
+               hx-swap='innerHTML'
+               data-username='" . htmlspecialchars($comment['username']) . "'>
+               <strong>" . htmlspecialchars($comment['username']) . "</strong>
+            </a>
+          </p>";
+        //echo "<p class='username'><strong>" . htmlspecialchars($comment['username']) . "</strong></p>";
         echo "<p>" . htmlspecialchars($comment['created_at']) . "</p>";
         echo "</div>";
         echo "<p>" . htmlspecialchars($comment['comment']) . "</p>";

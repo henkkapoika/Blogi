@@ -29,6 +29,18 @@ $user = $result->fetch_assoc();
                 <p><strong>Profile updated:</strong> <?php echo htmlspecialchars($user['updated_at']); ?></p>
             <?php endif; ?>
         </div>
+        
+        <div id="profile-picture">
+            <img src="<?php echo htmlspecialchars($user['profile_picture']) ?? 'uploads/default.png'; ?>" alt="Profile Picture" width="150" height="150">
+        </div>
+
+        <form id="profile-picture-form" hx-post="data/upload_profile_picture.php" hx-target="#profile-picture" hx-swap="outerHTML" enctype="multipart/form-data" hx-encoding="multipart/form-data">
+            <label for="profile-picture-input">Upload a new profile picture:</label>
+            <input type="file" name="profile_picture" id="profile-picture-input" accept="image/*" required>
+            <button type="submit">Upload</button>
+        </form>
+
+
         <div class="user-btn-div">
             <button class="user-btn" id="change-password-btn">Update your password</button>
         </div>

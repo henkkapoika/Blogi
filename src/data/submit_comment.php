@@ -16,7 +16,7 @@ if (isset($_POST['blog_id']) && isset($_POST['username']) && isset($_POST['comme
     $stmt->close();
 
     $stmtFetch = $mysqli->prepare("
-        SELECT c.comment_id, c.comment, c.created_at, c.edited_at, u.username
+        SELECT c.comment_id, c.comment, c.created_at, c.edited_at, u.username, u.profile_picture
         FROM comments c
         JOIN users u ON c.user_id = u.user_id
         WHERE c.comment_id = ?
@@ -28,10 +28,24 @@ if (isset($_POST['blog_id']) && isset($_POST['username']) && isset($_POST['comme
     $newComment = $result->fetch_assoc();
     $stmtFetch->close();
 
+    $profilePicture = !empty($comment['profile_picture']) ? $comment['profile_picture'] : 'uploads/default.png';
+
+
     echo "<div class='comment-wrapper new-comment' id='comment-wrapper-" . trim(htmlspecialchars($newComment['comment_id'])) . "'>";
     echo "<div id='comment-" . htmlspecialchars($newComment['comment_id']) . "' class='comment'>";
     echo "<div class='comment-header'>";
-    echo "<p class='username'><strong>" . htmlspecialchars($newComment['username']) . "</strong></p>";
+    echo "<img src='" . htmlspecialchars($profilePicture) . "' alt='Profile Picture' class='comment-profile-picture'>";
+    echo "<p class='username'>
+            <a href='#' 
+               hx-get='data/user_details.php?username=" . urlencode($newComment['username']) . "' 
+               hx-target='#modal-body'
+               hx-trigger='click' 
+               hx-swap='innerHTML'
+               data-username='" . htmlspecialchars($newComment['username']) . "'>
+               <strong>" . htmlspecialchars($newComment['username']) . "</strong>
+            </a>
+          </p>";
+    //echo "<p class='username'><strong>" . htmlspecialchars($newComment['username']) . "</strong></p>";
     echo "<p>" . htmlspecialchars($newComment['created_at']) . "</p>";
     echo "</div>";
     echo "<p>" . nl2br(htmlspecialchars($newComment['comment'])) . "</p>";
