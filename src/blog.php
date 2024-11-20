@@ -26,7 +26,7 @@ require 'templates/header.php';
         </div>
     </div>
     <section id="comment-form-section">
-        <form hx-post="data/submit_comment.php" hx-target="#comments-container" hx-swap="afterbegin" hx-on:afterRequest="this.reset()" class="comment-form">
+        <form id="comment-form" hx-post="data/submit_comment.php" hx-target="#comments-container" hx-swap="afterbegin" hx-on:htmx:afterRequest="resetForm()" class="comment-form">
             <input type="hidden" name="blog_id" value="<?php echo intval($_GET['blog_id']); ?>">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" value="<?php echo isset($_SESSION["username"]) ? htmlspecialchars($_SESSION["username"]) : 'Vieras'; ?>" required>
@@ -36,6 +36,24 @@ require 'templates/header.php';
         </form>
     </section>
     <script>
+        document.addEventListener('htmx:afterSwap', function(evt) {
+            if (evt.detail.target.id === 'comments-container') {
+                // Select the first comment within the comments container
+                const firstComment = document.querySelector('#comments-container .comment');
+                if (firstComment) {
+                    firstComment.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+
+        // Function to reset the comment form
+        function resetForm() {
+            document.getElementById('comment-form').reset();
+        }
+
+
         document.addEventListener('htmx:beforeRequest', function(evt) {
             if (evt.detail.elt.matches('a[data-username]')) {
                 document.getElementById('user-details-modal').style.display = 'block';

@@ -28,7 +28,7 @@ if (isset($_POST['blog_id']) && isset($_POST['username']) && isset($_POST['comme
     $newComment = $result->fetch_assoc();
     $stmtFetch->close();
 
-    $profilePicture = !empty($comment['profile_picture']) ? $comment['profile_picture'] : 'uploads/default.png';
+    $profilePicture = !empty($newComment['profile_picture']) ? $newComment['profile_picture'] : 'uploads/default.png';
 
 
     echo "<div class='comment-wrapper new-comment' id='comment-wrapper-" . trim(htmlspecialchars($newComment['comment_id'])) . "'>";
