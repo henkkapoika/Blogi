@@ -63,7 +63,7 @@ function generateBlogPost(){
     
     require "dbconn.php";
 
-    $stmt = $mysqli->prepare("SELECT * FROM blogs WHERE blog_id = ?");
+    $stmt = $mysqli->prepare("SELECT blogs.*, users.username, users.profile_picture FROM blogs JOIN users ON blogs.user_id = users.user_id WHERE blog_id = ?");
     $stmt->bind_param("i", $_GET['blog_id']);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -74,14 +74,19 @@ function generateBlogPost(){
 
     $likeCount = getLikeCount($blog['blog_id']);
     $commentCount = getCommentCount($blog['blog_id']);
+    $profilePicture = $blog['profile_picture'];
 
     echo "<div id='blog-post-". intval($blog['blog_id']) . "' class='mainblog-posts'>";
     echo "<div class='blog-header' style='background-image: url(images/" . htmlspecialchars($blog['image_url']) . ");'>";
     echo "<h1 class='blog-center'>" . htmlspecialchars($blog['title']) . "</h1>";
+    
+    
     echo "</div>";
     echo "<div class='blog-content content-wrapper'>";
     echo "<p class=''>" . $formattedContent . "</p>";
-    echo "<p>" . htmlspecialchars($blog['created_at']) . "</p>";
+    //echo "<p>" . htmlspecialchars($blog['created_at']) . "</p>";
+    echo "<img class='blog-profile-picture' src='" . htmlspecialchars($profilePicture) . "' alt='Profile Picture' class='post-profile-picture'>";
+    echo "<p>By <a href='user_blog.php?username=" . urlencode($blog['username']) . "'>" . htmlspecialchars($blog['username']) . "</a> on " . htmlspecialchars(date('F j, Y', strtotime($blog['created_at']))) . "</p>";
     if(isset($_SESSION['user_id'])){
         echo '<button class="like-button" 
                 hx-post="data/like_blog.php" 
@@ -96,6 +101,28 @@ function generateBlogPost(){
     echo "</div>";
 
     $stmt->close();
+
+    displayOtherEntries($blog['user_id'], $blog['blog_id']);
+}
+
+function displayOtherEntries($userId, $currentBlogId){
+    global $mysqli;
+
+    $stmt = $mysqli->prepare("SELECT blog_id, title, created_at FROM blogs WHERE user_id = ? AND blog_id != ? ORDER BY created_at DESC LIMIT 5");
+    $stmt->bind_param("ii", $userId, $currentBlogId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if($result->num_rows > 0){
+        echo "<section class='other-entries'>";
+        echo "<h3>Other posts by this author:</h3>";
+        echo "<ul>";
+        while($entry = $result->fetch_assoc()){
+            echo "<li><a href='blog.php?blog_id=" . intval($entry['blog_id']) . "'>" . htmlspecialchars($entry['title']) . "</a> (" . htmlspecialchars(date('F j, Y', strtotime($entry['created_at']))) . ")</li>";
+        }
+        echo "</ul>";
+        echo "</section>";
+    }
 }
 
 function generateUserBlogHtml($blog, $includeSwapOob = false) {

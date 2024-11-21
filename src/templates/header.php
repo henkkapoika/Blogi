@@ -16,66 +16,79 @@ require "data/post.php";
     <link rel="stylesheet" href="styles/style.css">
     <script src="https://unpkg.com/htmx.org@2.0.3"></script>
 </head>
-
 <body>
     <header>
-        <div class="header-field">
-            <ul class="header-list">
-                <li>
-                    <a href="index.php">
-                        <img class="logo-image" src="images/bloghouse_logo.png" alt="Logo of the website">
-                    </a>
-                </li>
+        <div class="header-container">
+            <a href="index.php" class="logo">
+                <img src="images/bloghouse_logo.png" alt="Logo of the website" class="logo-image">
+            </a>
+
+            <div class="nav-login-container">
+                <nav class="nav-menu" id="nav-menu">
+                    <ul class="nav-list">
+                        <li><a href="user.php">User Page</a></li>
+                        <li><a href="#">About Us</a></li>
+                    </ul>
+                </nav>
+
                 <div id="header-login-status">
+                    <?php if (isset($_SESSION["username"])) : ?>
                     <li>
-                        <a class="header-options" href="user.php">User Page</a>
-                        <a class="header-options" href="http://">About Us</a>
-                        <?php if (isset($_SESSION["username"])) : ?>
-                            <span class="header-username">Logged in as: <?php echo $_SESSION["username"]; ?></span>
-                            <button class="header-logout-btn" type="button"
-                                hx-post="data/logout.php"
-                                hx-target="#header-login-status"
-                                hx-swap="outerHTML">Log Out</button>
-                        <?php else: ?>
-                            <button id="open-login" class="header-btn">Login</button>
-                            <button id="open-register" class="header-btn">Register</button>
-                        <?php endif; ?>
+                        <span class="header-username">Logged in as: <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
+                        <button class="header-logout-btn" type="button"
+                            hx-post="data/logout.php"
+                            hx-target="#header-login-status"
+                            hx-swap="outerHTML">Log Out</button>
+                    </li>
+                    <?php else: ?>
+                        <button id="open-login" class="header-btn">Login</button>
+                        <button id="open-register" class="header-btn">Register</button>
+                    <?php endif; ?>
                 </div>
+            </div>
 
-                <!-- Login Modal -->
-                <div id="login-modal" class="modal" style="display: none;">
-                    <div class="modal-content">
-                        <span class="close" id="close-login">&times;</span>
-                        <div class="modal-header">
-                            <h3>Login</h3>
-                        </div>
-                        <form hx-post="data/login.php"
-                            hx-target="#login-feedback"
-                            id="login-form"
-                            hx-swap="innerHTML" class="header-form">
+            <button class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+        
 
-                            <label for="username">Username:</label>
-                            <input type="text" name="username" id="username">
-                            <label for="password">Password:</label>
-                            <input type="password" name="password" id="password">
-                            <button type="submit">Login</button>
-                        </form>
-                        <div id="login-feedback"></div>
-                    </div>
+        <!-- Login Modal -->
+        <div id="login-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" id="close-login">&times;</span>
+                <div class="modal-header">
+                    <h3>Login</h3>
                 </div>
+                <form hx-post="data/login.php"
+                    hx-target="#login-feedback"
+                    id="login-form"
+                    hx-swap="innerHTML" class="header-form">
 
-                <!-- Registration Modal -->
-                <div id="registration-modal" class="modal" style="display: none;">
-                    <div class="modal-content">
-                        <span class="close" id="close-register">&times;</span>
-                        <div class="modal-header">
-                            <h3>Register</h3>
-                        </div>
-                        <form hx-post="data/register.php"
-                            hx-target="#registration-feedback"
-                            id="register-form"
-                            hx-swap="innerHTML" class="header-form"
-                            hx-on::after-request="
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password">
+                    <button type="submit">Login</button>
+                </form>
+                <div id="login-feedback"></div>
+            </div>
+        </div>
+
+        <!-- Registration Modal -->
+        <div id="registration-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" id="close-register">&times;</span>
+                <div class="modal-header">
+                    <h3>Register</h3>
+                </div>
+                <form hx-post="data/register.php"
+                    hx-target="#registration-feedback"
+                    id="register-form"
+                    hx-swap="innerHTML" class="header-form"
+                    hx-on::after-request="
                                     let form = document.getElementById('register-form'); 
                                     if (form) {
                                         form.querySelectorAll('input').forEach(input => input.value = ''); 
@@ -83,17 +96,17 @@ require "data/post.php";
                                         if (firstInput) firstInput.focus();
                                     }
                                 ">
-                            <label for="username">Username:</label>
-                            <input type="text" name="username" id="username">
-                            <label for="password">Password:</label>
-                            <input type="password" name="password" id="password">
-                            <button type="submit">Register</button>
-                        </form>
-                        <div id="registration-feedback"></div>
-                    </div>
-                </div>
-                </li>
-            </ul>
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password">
+                    <button type="submit">Register</button>
+                </form>
+                <div id="registration-feedback"></div>
+            </div>
+        </div>
+        </li>
+        </ul>
         </div>
         <script>
             function attachModalEventListeners() {
@@ -113,12 +126,19 @@ require "data/post.php";
             }
 
             document.addEventListener("DOMContentLoaded", function() {
+                const hamburger = document.getElementById('hamburger');
+                const navMenu = document.getElementById('nav-menu');
                 const openLogin = document.getElementById("open-login");
                 const closeLogin = document.getElementById("close-login");
                 const openRegister = document.getElementById("open-register");
                 const closeRegister = document.getElementById("close-register");
                 const loginModal = document.getElementById("login-modal");
                 const registerModal = document.getElementById("registration-modal");
+
+                hamburger.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                });
 
                 if (openLogin && loginModal) {
                     openLogin.onclick = function() {
@@ -167,6 +187,6 @@ require "data/post.php";
                         document.getElementById('login-modal').style.display = 'none';
                     }
                 }
-            });            
+            });
         </script>
     </header>
