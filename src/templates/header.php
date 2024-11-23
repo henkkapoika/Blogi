@@ -16,6 +16,7 @@ require "data/post.php";
     <link rel="stylesheet" href="styles/style.css">
     <script src="https://unpkg.com/htmx.org@2.0.3"></script>
 </head>
+
 <body>
     <header>
         <div class="header-container">
@@ -31,20 +32,22 @@ require "data/post.php";
                     </ul>
                 </nav>
 
-                <div id="header-login-status">
+                <ul id="header-login-status">
                     <?php if (isset($_SESSION["username"])) : ?>
-                    <li>
-                        <span class="header-username">Logged in as: <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
-                        <button class="header-logout-btn" type="button"
-                            hx-post="data/logout.php"
-                            hx-target="#header-login-status"
-                            hx-swap="outerHTML">Log Out</button>
-                    </li>
+                        <li>
+                            <span class="header-username">Logged in as: <?php echo htmlspecialchars($_SESSION["username"]); ?></span>
+                            <button class="header-logout-btn" type="button"
+                                hx-post="data/logout.php"
+                                hx-target="#header-login-status"
+                                hx-swap="outerHTML">Log Out</button>
+                        </li>
                     <?php else: ?>
+                        <li>
                         <button id="open-login" class="header-btn">Login</button>
                         <button id="open-register" class="header-btn">Register</button>
+                        </li>
                     <?php endif; ?>
-                </div>
+                </ul>
             </div>
 
             <button class="hamburger" id="hamburger">
@@ -53,7 +56,7 @@ require "data/post.php";
                 <span class="bar"></span>
             </button>
         </div>
-        
+
 
         <!-- Login Modal -->
         <div id="login-modal" class="modal" style="display: none;">

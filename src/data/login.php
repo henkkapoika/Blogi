@@ -22,16 +22,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["username"]) && isset($
             //echo "<div class='success'>Login successful!</div>";
             //<a class="header-options" href="user.php">User Page</a>
             //<a class="header-options" href="http://">About Us</a>
-            echo '
-            <div id="header-login-status" hx-swap-oob="outerHTML">
-            <li>
-                <span class="header-username">Logged in as: ' . htmlspecialchars($_SESSION["username"]) . '</span>
-                <button class="header-logout-btn" type="button"
-                hx-post="data/logout.php"
-                hx-target="#header-login-status"
-                hx-swap="outerHTML">Log Out</button>
-            </li>
-            </div>
+            echo '<ul id="header-login-status" hx-swap-oob="outerHTML">
+                <li>
+                    <span class="header-username">Logged in as: ' . htmlspecialchars($_SESSION["username"]) . '</span>
+                    <button class="header-logout-btn" type="button"
+                    hx-post="data/logout.php"
+                    hx-target="#header-login-status"
+                    hx-swap="outerHTML">Log Out</button>
+                </li>
+            </ul>
             ';
             echo '<div id="login-feedback"></div>';
         } else {
