@@ -24,18 +24,10 @@ if (!$user) {
 
 $userId = $user['user_id'];
 $profilePicture = $user['profile_picture'];
+$username = $user['username'];
 
 ?>
 <style>
-
-a {
-    color: #007BFF;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
 
 main {
     max-width: 1200px;
@@ -56,15 +48,20 @@ main {
         <div id="blogs-container" hx-get="data/fetch_user_blogs.php?user_id=<?php echo intval($userId); ?>&page=1" hx-trigger="load" hx-target="#blogs-container" hx-swap="innerHTML">
             <p>Loading blog entries...</p>
         </div>
-        <button id="load-more-blogs" hx-get="data/fetch_user_blogs.php?user_id=<?php echo intval($userId); ?>&page=2" hx-trigger="click" hx-target="#blogs-container" hx-swap="afterend">Load More</button>
+        <button id="load-more-blogs" 
+        data-page="2" 
+        hx-get="data/fetch_user_blogs.php?user_id=<?php echo intval($userId); ?>&page=2" 
+        hx-trigger="click" hx-target="#blogs-container" hx-swap="afterend">Load More</button>
     </section>
 </main>
 
 <script>
-    let currentPage = 1;
     document.getElementById('load-more-blogs').addEventListener('click', function() {
+        let currentPage = parseInt(this.getAttribute('data-page'));
+
         currentPage++;
         this.setAttribute('hx-get', `data/fetch_user_blogs.php?user_id=<?php echo intval($userId); ?>&page=${currentPage}`);
+        this.setAttribute('data-page', currentPage);
     });
 </script>
 

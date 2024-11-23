@@ -29,9 +29,11 @@ $user = $result->fetch_assoc();
                 <p><strong>Profile updated:</strong> <?php echo htmlspecialchars($user['updated_at']); ?></p>
             <?php endif; ?>
         </div>
-        
+
         <div id="profile-picture">
-            <img src="<?php echo htmlspecialchars($user['profile_picture']) ?? 'uploads/default.png'; ?>" alt="Profile Picture" width="150" height="150">
+            <a href="user_blog.php?username=<?= urlencode(htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8')) ?>">
+                <img src="<?php echo htmlspecialchars($user['profile_picture']) ?? 'uploads/default.png'; ?>" alt="Profile Picture" width="150" height="150">
+            </a>
         </div>
 
         <form id="profile-picture-form" hx-post="data/upload_profile_picture.php" hx-target="#profile-picture" hx-swap="outerHTML" enctype="multipart/form-data" hx-encoding="multipart/form-data">
@@ -145,14 +147,14 @@ $user = $result->fetch_assoc();
 
     // Delete
     document.body.addEventListener('htmx:afterRequest', function(evt) {
-    if (evt.detail.xhr && evt.detail.xhr.responseURL.includes('delete_entry.php')) {
-        if (evt.detail.xhr.status === 200) {
-            alert('Blog post deleted successfully.');
-        } else {
-            alert(evt.detail.xhr.responseText);
+        if (evt.detail.xhr && evt.detail.xhr.responseURL.includes('delete_entry.php')) {
+            if (evt.detail.xhr.status === 200) {
+                alert('Blog post deleted successfully.');
+            } else {
+                alert(evt.detail.xhr.responseText);
+            }
         }
-    }
-});
+    });
 </script>
 <?php
 require "templates/footer.php";

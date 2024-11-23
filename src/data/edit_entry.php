@@ -5,7 +5,7 @@ session_start();
 if (isset($_GET['blog_id'])) {
     $blogId = htmlspecialchars($_GET['blog_id']);
     $stmt = $mysqli->prepare("SELECT * FROM blogs WHERE blog_id = ?");
-    $stmt->bind_param("s", $blogId);
+    $stmt->bind_param("i", $blogId);
     $stmt->execute();
     $result = $stmt->get_result();
 
