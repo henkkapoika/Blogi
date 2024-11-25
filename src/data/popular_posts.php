@@ -59,7 +59,7 @@ function generateCarouselItem($blog) {
             <img src='images/{$imageUrl}' alt='{$title}'>
             </div>
             <h3>{$title}</h3>
-            <p>Posted on {$createdAt} | Likes: {$likeCount} | Comments: {$commentCount}</p>
+            <p>Posted on " . htmlspecialchars(date('F j, Y', strtotime($createdAt))) . " | Likes: {$likeCount} | Comments: {$commentCount}</p>
             <p><strong>{$username}</strong></p>
         </a>
     </div>

@@ -43,8 +43,8 @@ require "data/post.php";
                         </li>
                     <?php else: ?>
                         <li>
-                        <button id="open-login" class="header-btn">Login</button>
-                        <button id="open-register" class="header-btn">Register</button>
+                            <button id="open-login" class="header-btn">Login</button>
+                            <button id="open-register" class="header-btn">Register</button>
                         </li>
                     <?php endif; ?>
                 </ul>

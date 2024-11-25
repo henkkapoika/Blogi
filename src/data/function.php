@@ -137,10 +137,12 @@ function generateUserBlogHtml($blog, $includeSwapOob = false) {
     return '
     <div id="blog-post-' . $blogId . '" class="user-blog"' . $swapOobAttribute . '>
         <a href="blog.php?blog_id=' . $blogId . '">
+        <div class="ub-image-container">
             <img class="user-blog-img" src="images/' . $imageUrl . '">
             <h3>' . $title . '</h3>
-            <p>' . $createdAt . '</p>
+            <p>' . htmlspecialchars(date('F j, Y', strtotime($blog['created_at']))) . '</p>
         </a>
+        </div>
         <span class="like-count" id="user-like-count-' . $blogId . '">' . $likeCount . ' Likes</span>
         <button class="edit-button"
             hx-get="data/edit_entry.php?blog_id=' . $blogId . '"
