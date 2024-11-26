@@ -27,8 +27,17 @@ require "data/post.php";
             <div class="nav-login-container">
                 <nav class="nav-menu" id="nav-menu">
                     <ul class="nav-list">
-                        <li><a href="user.php">User Page</a></li>
-                        <li><a href="#">About Us</a></li>
+                        <li class="user-site"><a href="user.php">User</a></li>
+                        <div class="search-container">
+                            <input type="search" name="search" id="search-input" placeholder="Search blog entries, users..."
+                                hx-post="data/search.php" hx-trigger="keyup changed delay:500ms"
+                                hx-target="#search-results" hx-swap="outerHTML">
+
+                                <div id="search-results"></div>
+                        </div>
+
+
+                        <!--<li><a href="#">About Us</a></li>-->
                     </ul>
                 </nav>
 
@@ -56,7 +65,6 @@ require "data/post.php";
                 <span class="bar"></span>
             </button>
         </div>
-
 
         <!-- Login Modal -->
         <div id="login-modal" class="modal" style="display: none;">
@@ -189,6 +197,14 @@ require "data/post.php";
                     if (event.detail.xhr.status === 200) {
                         document.getElementById('login-modal').style.display = 'none';
                     }
+                }
+            });
+
+            document.addEventListener('click', function(event) {
+                var searchInput = document.getElementById('search-input');
+                var searchResults = document.getElementById('search-results');
+                if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+                    searchResults.innerHTML = '';
                 }
             });
         </script>

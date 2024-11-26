@@ -2,6 +2,7 @@
 require "dbconn.php";
 session_start();
 
+
 if (isset($_GET['blog_id'])) {
     $blogId = intval($_GET['blog_id']);
     $stmt = $mysqli->prepare("SELECT c.comment, c.created_at, c.edited_at, u.username, u.profile_picture, c.comment_id FROM comments c JOIN users u ON c.user_id = u.user_id WHERE c.blog_id = ? ORDER BY c.created_at DESC");
@@ -10,7 +11,7 @@ if (isset($_GET['blog_id'])) {
     $result = $stmt->get_result();
 
     while ($comment = $result->fetch_assoc()) {
-        $profilePicture = !empty($comment['profile_picture']) ? $comment['profile_picture'] : 'uploads/default.png';
+        $profilePicture = $comment['profile_picture'];
 
         echo "<div class='comment-wrapper' id='comment-wrapper-" . trim(htmlspecialchars($comment['comment_id'])) . "'>";
         echo "<div id='comment-" . intval($comment['comment_id']) . "' class='comment'>";
@@ -30,7 +31,7 @@ if (isset($_GET['blog_id'])) {
         echo "<p>" . htmlspecialchars($comment['created_at']) . "</p>";
         echo "</div>";
         echo "<p>" . htmlspecialchars($comment['comment']) . "</p>";
-        
+
 
         if (!empty($comment['edited_at'])) {
             echo "<p class='edited_at'>Edited at: " . htmlspecialchars($comment['edited_at']) . "</p>";
@@ -46,9 +47,8 @@ if (isset($_GET['blog_id'])) {
         echo "</div>";
         echo "</div>";
     }
-
-    $stmt->close();
 } else {
     echo "<p>No comments found</p>";
 }
-?>
+
+$stmt->close();

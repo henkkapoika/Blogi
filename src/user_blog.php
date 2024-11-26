@@ -27,23 +27,15 @@ $profilePicture = $user['profile_picture'];
 $username = $user['username'];
 
 ?>
-<style>
-
-main {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
-}
-</style>
 <main>
     <section>
-        <div class="user-profile">
+        <div class="user-profile user-blog-page">
             <img src="<?php echo htmlspecialchars($profilePicture); ?>" alt="Profile picture" class="profile-picture">
             <h2><?php echo htmlspecialchars($username); ?>'s Blog</h2>
         </div>
     </section>
 
-    <section id="user-blogs-section">
+    <section class="user-blog-page" id="user-blogs-section">
         <h3>All Blog Entries</h3>
         <div id="blogs-container" hx-get="data/fetch_user_blogs.php?user_id=<?php echo intval($userId); ?>&page=1" hx-trigger="load" hx-target="#blogs-container" hx-swap="innerHTML">
             <p>Loading blog entries...</p>

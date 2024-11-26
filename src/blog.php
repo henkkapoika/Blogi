@@ -13,7 +13,8 @@ require 'templates/header.php';
     </section>
     <div id="comments-section">
         <h3>Comments</h3>
-        <div id="comments-container" hx-get="data/comments.php?blog_id=<?php echo intval($_GET['blog_id']); ?>" hx-trigger="load">
+        <div id="comments-container" hx-get="data/comments.php?blog_id=<?php echo intval($_GET['blog_id']); ?>"
+            hx-trigger="load" hx-target="#comments-container" hx-swap="innerHTML">
             <p>Loading comments...</p>
         </div>
     </div>
@@ -36,24 +37,8 @@ require 'templates/header.php';
         </form>
     </section>
     <script>
-        document.addEventListener('htmx:afterSwap', function(evt) {
-            if (evt.detail.target.id === 'comments-container') {
-                // Select the first comment within the comments container
-                const firstComment = document.querySelector('#comments-container .comment');
-                if (firstComment) {
-                    firstComment.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-
-        // Function to reset the comment form
-        function resetForm() {
-            document.getElementById('comment-form').reset();
-        }
-
-
+        
+        // Modal
         document.addEventListener('htmx:beforeRequest', function(evt) {
             if (evt.detail.elt.matches('a[data-username]')) {
                 document.getElementById('user-details-modal').style.display = 'block';

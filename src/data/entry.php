@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit('Please fill out all fields.');
     }
 
-    $fileName = null;
+    $fileName = 'background.jpg';
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
         if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {

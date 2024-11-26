@@ -976,10 +976,10 @@ form textarea {
 .user-profile {
     display: flex;
     align-items: center;
-    background-color: #ffffff;
+    /*background-color: #ffffff;*/
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /*box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);*/
     margin-bottom: 30px;
 }
 
@@ -1227,7 +1227,7 @@ header {
     display: none;
     flex-direction: column;
     justify-content: space-between;
-    width: 25px;
+    width: 30px;
     height: 20px;
     background: none;
     border: none;
@@ -1262,25 +1262,50 @@ header {
     }
 
     .nav-menu {
-        position: absolute;
+        /*position: absolute;
         top: 70px;
         right: 20px;
         flex-direction: column;
         background-color: #ffffff;
-        width: 200px;
+        width: 200px;;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
+        border-radius: 8px;*/
         display: none;
+        gap: 10px;
     }
 
     .nav-menu.active {
         display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background-color: #fff;
+        z-index: 1000;
     }
 
     .nav-list {
         flex-direction: column;
-        gap: 10px;
-        padding: 10px 0;
+        align-items: center;
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+    }
+
+    .nav-list li {
+        width: 100%;
+        text-align: center;
+        list-style: none;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .nav-list li a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+        width: 100%;
     }
 
     .header-container {
@@ -1315,3 +1340,80 @@ header {
     gap: 20px;
 }
 
+.user-blog-page {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+
+.search-container {
+    position: relative;
+    padding: 10px 0;
+    width: 100%;
+}
+
+#search-input {
+    width: 100%;
+    max-width: 600px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+
+
+#search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.search-result h4 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.search-result h4 a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.search-result h4 a:hover {
+    text-decoration: underline;
+}
+
+.blog-date {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.search-result p {
+    margin: 0 0 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.user-site{
+    margin: 20px;
+}
