@@ -27,6 +27,8 @@ require 'templates/header.php';
         </div>
     </div>
     <section id="comment-form-section">
+        <?php if (isset($_SESSION["username"])) : ?>
+            <h3 class="center">Leave a comment</h3>
         <form id="comment-form" hx-post="data/submit_comment.php" hx-target="#comments-container" hx-swap="afterbegin" hx-on:htmx:afterRequest="resetForm()" class="comment-form">
             <input type="hidden" name="blog_id" value="<?php echo intval($_GET['blog_id']); ?>">
             <label for="username">Username:</label>
@@ -35,7 +37,10 @@ require 'templates/header.php';
             <textarea name="comment" id="comment" cols="30" rows="10" required></textarea>
             <button type="submit">Submit</button>
         </form>
+        <?php else : ?>
+            <p class="center">Login to leave comments!</p>
     </section>
+    <?php endif; ?>
     <script>
         
         // Modal
